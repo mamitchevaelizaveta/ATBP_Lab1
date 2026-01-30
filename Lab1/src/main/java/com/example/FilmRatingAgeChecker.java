@@ -12,34 +12,40 @@ package com.example;
 * */
 
 public class FilmRatingAgeChecker {
+    public String ageCheck(Integer viewerAge, Integer movieRating, Boolean isAccompanyingAdultExists) {
 
-    public String ageCheck (Integer viewerAge, Integer movieRating, Boolean isAccompanyingAdultExists){
-        String response = (viewerAge < 0 || viewerAge > 100) ? "запрещено" : " "; // создание переменной responce,
-        // проверка корректности возраста
-        System.out.print("Возрастной рейтинг: ");
-        switch(movieRating){
+        if (viewerAge < 0 || viewerAge > 100) {
+            return "запрещено";
+        }
+
+        System.out.println("Возраст зрителя: " + viewerAge);
+        System.out.println(isAccompanyingAdultExists ? "Сопровождающий есть" : "Сопровождающего нет");
+
+        String response;
+
+        switch (movieRating) {
             case 0:
-                System.out.println("0+");
-                response = viewerAge >= 0 ? "разрешено" : "запрещено";
+                System.out.println("Возрастной рейтинг: +0");
+                response = (viewerAge >= 0 || isAccompanyingAdultExists) ? "разрешено" : "запрещено";
                 break;
             case 6:
-                System.out.println("6+");
-                response = viewerAge >= 6 ? "разрешено" : "запрещено";
+                System.out.println("Возрастной рейтинг: +6");
+                response = (viewerAge >= 6 || isAccompanyingAdultExists) ? "разрешено" : "запрещено";
                 break;
             case 12:
-                System.out.println("12+");
-                response = viewerAge >= 12 ? "разрешено" : "запрещено";
+                System.out.println("Возрастной рейтинг: +12");
+                response = (viewerAge >= 12 || isAccompanyingAdultExists) ? "разрешено" : "запрещено";
                 break;
             case 16:
-                System.out.println("16+");
-                response = (viewerAge >= 16 || isAccompanyingAdultExists) ? "разрешено" : "запрещено";
+                System.out.println("Возрастной рейтинг: +16");
+                response = (viewerAge >= 16) ? "разрешено" : "запрещено";
                 break;
             case 18:
-                System.out.println("18+");
-                response = (viewerAge >= 18 || isAccompanyingAdultExists) ? "разрешено" : "запрещено";
+                System.out.println("Возрастной рейтинг: +18");
+                response = (viewerAge >= 18) ? "разрешено" : "запрещено";
                 break;
             default:
-                break;
+                return "Введено некорректное значение возрастного ограничения.";
         }
         return response;
     }
