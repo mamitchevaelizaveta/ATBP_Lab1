@@ -14,7 +14,7 @@ package com.example;
 public class FilmRatingAgeChecker {
     public String ageCheck(Integer viewerAge, Integer movieRating, Boolean isAccompanyingAdultExists) {
 
-        if (viewerAge < 0 || viewerAge > 100) {
+        if (viewerAge < 0 || viewerAge > 100) { // границы возраста
             return "запрещено";
         }
 

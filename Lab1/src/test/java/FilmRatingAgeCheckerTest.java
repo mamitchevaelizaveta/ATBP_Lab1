@@ -18,11 +18,16 @@ public class FilmRatingAgeCheckerTest {
         System.out.println("Переход к следующему тест-кейсу");
     }
 
+    @AfterAll
+    public static void endTest() {
+        System.out.println("Конец тестирования");
+    }
+
     // Проверка позитивных сценариев
     @Test
     @Order(1)
     public void filmIsAllowed() {
-        String result = checker.ageCheck(16, 16, false);
+        String result = checker.ageCheck(17, 16, false);
         assertEquals("разрешено", result);
     }
 
@@ -55,30 +60,40 @@ public class FilmRatingAgeCheckerTest {
         assertEquals("Введено некорректное значение возрастного ограничения.", result);
     }
 
+    @Test
+    @Order(9)
+    public void ViewerIsTooOld() {
+        String result = checker.ageCheck(101, 18, false);
+        assertEquals("запрещено", result);
+    }
+
+    @Test
+    @Order(10)
+    public void ViewerIsTooYoung() {
+        String result = checker.ageCheck(-1, 0, false);
+        assertEquals("запрещено", result);
+    }
+
     // Граничные значения
     @Test
     @Order(6)
-    public void CheckBoundaryMinAge() {
+    public void checkBoundaryMinAge() {
         String result = checker.ageCheck(0, 0, false);
         assertEquals("разрешено", result);
     }
 
     @Test
     @Order(7)
-    public void CheckBoundaryMaxAge() {
+    public void checkBoundaryMaxAge() {
         String result = checker.ageCheck(100, 18, false);
         assertEquals("разрешено", result);
     }
 
     @Test
     @Order(8)
-    public void CheckBoundaryRatingAge() {
+    public void checkBoundaryRatingAge() {
         String result = checker.ageCheck(12, 12, false);
         assertEquals("разрешено", result);
     }
 
-    @AfterAll
-    public static void endTest() {
-        System.out.println("Конец тестирования");
-    }
 }
