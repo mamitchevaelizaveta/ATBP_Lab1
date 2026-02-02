@@ -13,9 +13,9 @@ public class FilmRatingAgeCheckerTest {
     }
 
     @BeforeEach
-    public void setUp() {
+    public void setUp(TestInfo info) {
         checker = new FilmRatingAgeChecker();
-        System.out.println("Переход к следующему тест-кейсу");
+        System.out.println("Переход к следующему тест-кейсу: " + info.getDisplayName());
     }
 
     @AfterAll
