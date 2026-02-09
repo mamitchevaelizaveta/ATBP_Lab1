@@ -57,7 +57,7 @@ public class FilmRatingAgeCheckerTest {
     @Order(3)
     public void RatingIsIncorrect() {
         String result = checker.ageCheck(20, 20, false);
-        assertEquals("Введено некорректное значение возрастного ограничения.", result);
+        assertEquals("запрещено", result);
     }
 
     @Test

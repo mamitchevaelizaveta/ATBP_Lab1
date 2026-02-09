@@ -14,12 +14,12 @@ package com.example;
 public class FilmRatingAgeChecker {
     public String ageCheck(Integer viewerAge, Integer movieRating, Boolean isAccompanyingAdultExists) {
 
+        System.out.println("Возраст зрителя: " + viewerAge);
+        System.out.println(isAccompanyingAdultExists ? "Сопровождающий есть" : "Сопровождающего нет");
+
         if (viewerAge < 0 || viewerAge > 100) { // границы возраста
             return "запрещено";
         }
-
-        System.out.println("Возраст зрителя: " + viewerAge);
-        System.out.println(isAccompanyingAdultExists ? "Сопровождающий есть" : "Сопровождающего нет");
 
         String response;
 
@@ -45,7 +45,7 @@ public class FilmRatingAgeChecker {
                 response = (viewerAge >= 18) ? "разрешено" : "запрещено";
                 break;
             default:
-                return "Введено некорректное значение возрастного ограничения.";
+               return "запрещено";
         }
         return response;
     }
