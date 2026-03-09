@@ -11,42 +11,74 @@ package com.example;
 влияние сопровождающего и некорректно введенный возраст.
 * */
 
+import com.example.exception.MovieRatingNotFoundException;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class FilmRatingAgeChecker {
-    public String ageCheck(Integer viewerAge, Integer movieRating, Boolean isAccompanyingAdultExists) {
+
+    private final IMDBService imdbService;
+
+    private ArrayList<Integer> ratings;
+
+    public FilmRatingAgeChecker(IMDBService imdbService) {
+        this.imdbService = imdbService;
+    }
+
+    public String ageCheck(Integer viewerAge, String movieId, Boolean isAccompanyingAdultExists) {
 
         System.out.println("Возраст зрителя: " + viewerAge);
         System.out.println(isAccompanyingAdultExists ? "Сопровождающий есть" : "Сопровождающего нет");
 
-        if (viewerAge < 0 || viewerAge > 100) { // границы возраста
+        // 1. Валидация возраста
+        if (viewerAge == null || viewerAge < 0 || viewerAge > 100) {
+            System.out.println("Некорректный возраст: " + viewerAge);
+            return "запрещено";
+        }
+
+        Integer movieRating;
+
+        try {
+            ratings = new ArrayList<>(Arrays.asList(0,6,12,16,18));
+            movieRating = imdbService.getMovieRating(movieId);
+            if(!ratings.contains(movieRating)) {
+                throw new MovieRatingNotFoundException("404");
+            }
+            System.out.println("Получен рейтинг от сервиса: " + movieRating);
+        } catch (MovieRatingNotFoundException e) {
+            // реализация сложного сценария
+            System.err.println("Фильм не найден в базе. Код ошибки: " + e.getMessage());
             return "запрещено";
         }
 
         String response;
-
         switch (movieRating) {
             case 0:
-                System.out.println("Возрастной рейтинг: +0");
+                System.out.println("Возрастной рейтинг: 0+");
                 response = (viewerAge >= 0 || isAccompanyingAdultExists) ? "разрешено" : "запрещено";
                 break;
             case 6:
-                System.out.println("Возрастной рейтинг: +6");
+                System.out.println("Возрастной рейтинг: 6+");
                 response = (viewerAge >= 6 || isAccompanyingAdultExists) ? "разрешено" : "запрещено";
                 break;
             case 12:
-                System.out.println("Возрастной рейтинг: +12");
+                System.out.println("Возрастной рейтинг: 12+");
                 response = (viewerAge >= 12 || isAccompanyingAdultExists) ? "разрешено" : "запрещено";
                 break;
             case 16:
-                System.out.println("Возрастной рейтинг: +16");
+                System.out.println("Возрастной рейтинг: 16+");
                 response = (viewerAge >= 16) ? "разрешено" : "запрещено";
                 break;
             case 18:
-                System.out.println("Возрастной рейтинг: +18");
+                System.out.println("Возрастной рейтинг: 18+");
                 response = (viewerAge >= 18) ? "разрешено" : "запрещено";
                 break;
             default:
-               return "запрещено";
+                System.out.println("Неизвестный рейтинг от сервиса: " + movieRating);
+                response = "запрещено";
         }
         return response;
     }
+
 }
